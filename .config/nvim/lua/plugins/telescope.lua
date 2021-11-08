@@ -12,7 +12,7 @@ M.config = function()
                 case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
             },
             media_files = {
-                filetypes = {"png", "jpg", "jpeg", "webp"},
+                filetypes = {"png", "jpg", "JPG", "jpeg", "webp"},
                 find_cmd = rg
             }
         }

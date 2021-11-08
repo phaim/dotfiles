@@ -30,10 +30,30 @@ require("packer").startup(function()
         end
     }
 
+    use "romgrk/nvim-treesitter-context"
+
     -- LSP
     use {
         "neovim/nvim-lspconfig",
      }
+
+    -- use {
+    --     "glepnir/lspsaga.nvim",
+    --     config = function()
+    --         require('plugins.lspsaga').config()
+    --     end
+    -- }
+    use {
+        "ray-x/lsp_signature.nvim",
+        config = function()
+            require("lsp_signature").setup {
+                hint_prefix = " ",
+                handler_opts = {
+                    border = "none"
+                }
+            }
+        end,
+    }
 
     use {
         "onsails/lspkind-nvim",
@@ -67,9 +87,25 @@ require("packer").startup(function()
 
     -- Completion
     use {
-        "hrsh7th/nvim-compe",
+        "hrsh7th/nvim-cmp",
         config = function()
-            require("plugins.compe").config()
+            require("plugins.nvim-cmp").config()
+        end
+    }
+    use "hrsh7th/cmp-buffer"
+    use "hrsh7th/cmp-path"
+    use "hrsh7th/cmp-nvim-lsp"
+    use "hrsh7th/cmp-nvim-lua"
+    use "hrsh7th/cmp-cmdline"
+    use "hrsh7th/cmp-nvim-lsp-document-symbol"
+    use "tamago324/cmp-zsh"
+    use "lukas-reineke/cmp-under-comparator"
+    use "saadparwaiz1/cmp_luasnip"
+
+    use {
+        "L3MON4D3/LuaSnip",
+        config = function()
+            require("plugins.snippets").config()
         end
     }
 
@@ -77,12 +113,23 @@ require("packer").startup(function()
         "windwp/nvim-autopairs",
         config = function()
             require('nvim-autopairs').setup()
-            require("nvim-autopairs.completion.compe").setup({
-                map_cr = true, --  map <CR> on insert mode
-                map_complete = true -- it will auto insert `(` after select function or method item
-            })
+            -- If you want insert `(` after select function or method item
+            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+            local cmp = require('cmp')
+            cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+
+            -- add a lisp filetype (wrap my-function), FYI: Hardcoded = { "clojure", "clojurescript", "fennel", "janet" }
+            cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
         end
 
+    }
+
+    -- Tex
+    use {
+        "lervag/vimtex",
+        config = function()
+            require("plugins.vimtex").config()
+        end
     }
 
     ----------------------------------------------------
@@ -112,20 +159,23 @@ require("packer").startup(function()
     }
      
     use {
-      'glepnir/galaxyline.nvim',
-        branch = 'main',
+        'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
+        cmd = require('lualine').setup(),
         config = function()
-            require('plugins.galaxyline').config()
+            require("plugins.lualine").config()
         end
     }
-
-    use {
-        "wfxr/minimap.vim",
-        config = function()
-            require("plugins.minimap").config()
-        end
-    }
+    use 'arkav/lualine-lsp-progress'
+    -- use {
+    --   'glepnir/galaxyline.nvim',
+    --     branch = 'main',
+    --     requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    --     config = function()
+    --         require('plugins.galaxyline').config()
+    --     end
+    -- }
+    
 
     ----------------------------------------------------
     -- Productivity tools
@@ -151,6 +201,30 @@ require("packer").startup(function()
         requires = "nvim-lua/plenary.nvim"
     }
 
+    use {
+        "folke/which-key.nvim",
+        config = function()
+            require("which-key").setup{}
+        end
+    }
+
+    use {
+        "soywod/himalaya",
+        config = function()
+            require("plugins.himalaya").config()
+        end
+    }
+
+    use "Pocco81/TrueZen.nvim"
+
+    use {
+        "folke/twilight.nvim",
+        config = function()
+            require("twilight").setup()
+        end
+    }
+
+    use "dstein64/vim-startuptime"
     ----------------------------------------------------
     -- Visuals
     ----------------------------------------------------
@@ -170,7 +244,9 @@ require("packer").startup(function()
         end
     }
 
+
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+    use {"sainnhe/gruvbox-material"}
 
     -- use {"tjdevries/colorbuddy.nvim"}
     -- use {

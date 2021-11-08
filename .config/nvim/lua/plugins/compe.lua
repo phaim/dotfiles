@@ -26,6 +26,7 @@ M.config = function()
         };
       
         source = {
+            omni = true;
             path = true;
             buffer = true;
             calc = true;

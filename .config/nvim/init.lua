@@ -18,7 +18,11 @@ require "pluginlist"
 require "options"
 require "mappings"
 require "nvim-lsp"
+require "snippets"
+
 
 
 vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox]])
+vim.g.gruvbox_material_backgruond = "hard"
+vim.g.gruvbox_material_palette = "original"
+vim.cmd([[colorscheme gruvbox-material]])
