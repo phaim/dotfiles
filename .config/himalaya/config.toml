@@ -1,0 +1,17 @@
+name = "Philipp Haim"
+downloads-dir = "/home/philipp/Documents/email/"
+
+[gmail]
+default = true
+email = "philipp.haim@gmail.com"
+
+imap-host = "imap.gmail.com"
+imap-port = 993
+
+imap-login = "philipp.haim@gmail.com"
+imap-passwd-cmd = "pass show gmail.himalaya"
+
+smtp-host = "smtp.gmail.com"
+smtp-port = 465
+smtp-login = "philipp.haim@gmail.com"
+smtp-passwd-cmd = "pass show gmail.himalaya"
