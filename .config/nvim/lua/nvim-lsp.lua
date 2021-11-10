@@ -13,11 +13,10 @@ local on_attach = function(client, bufnr)
     local opts = { noremap=true, silent=true }
 
     --See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>k', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    --buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>k', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -32,6 +31,28 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
     buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     
+
+    local wk = require("which-key")
+    wk.register({
+        ["<leader>"] = {
+            l = {
+                name = "LSP",
+                r = {"<Cmd> Telescope lsp_references<CR>", "Show references"},
+                d = {"<Cmd> Telescope lsp_definitions<CR>", "Show definition"},
+                s = {"<Cmd> Telescope lsp_document_symbols<CR>", "Show document symbols"},
+                w = {"<Cmd> Telescope lsp_workspace_symbols<CR>", "Show workspace symbols"},
+            },
+            k = {"<Cmd> lua vim.lsp.buf.hover()<CR>", "hover"},
+
+        },
+        g = {
+            name = "goto",
+            d = {"<Cmd> lua vim.lsp.buf.definition()<CR>", "go to definition"},
+            D = {"<Cmd> lua vim.lsp.buf.declaration()<CR>", "go to declaration"},
+            i = {"<Cmd> lua vim.lsp.buf.implementation()<CR>", "go to implementation"},
+        },
+        },{buffer = bufnr,}
+    )
 end
 
 

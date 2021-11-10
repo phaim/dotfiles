@@ -4,7 +4,7 @@ require("packer").startup(function()
     use {
         "nvim-telescope/telescope.nvim",
         requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}},
-        -- cmd = "Telescope",
+        cmd = "Telescope",
         config = function()
             require("plugins.telescope").config()
         end
@@ -12,12 +12,12 @@ require("packer").startup(function()
     use {
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
-        -- cmd = "Telescope"
+        cmd = "Telescope"
     }
-    use {
-        "nvim-telescope/telescope-media-files.nvim",
-        -- cmd = "Telescope"
-    }
+    -- use {
+    --     "nvim-telescope/telescope-media-files.nvim",
+    --     cmd = "Telescope"
+    -- }
 
     ----------------------------------------------------
     -- IDE Features
@@ -101,6 +101,8 @@ require("packer").startup(function()
     use "tamago324/cmp-zsh"
     use "lukas-reineke/cmp-under-comparator"
     use "saadparwaiz1/cmp_luasnip"
+    --use {'tzachar/fuzzy.nvim'}
+    --use {'tzachar/cmp-fuzzy-buffer', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
 
     use {
         "L3MON4D3/LuaSnip",
@@ -108,6 +110,7 @@ require("packer").startup(function()
             require("plugins.snippets").config()
         end
     }
+    use "rafamadriz/friendly-snippets"
 
     use {
         "windwp/nvim-autopairs",
@@ -249,13 +252,12 @@ require("packer").startup(function()
     use {"sainnhe/gruvbox-material"}
 
     -- use {"tjdevries/colorbuddy.nvim"}
-    -- use {
-    --     "tjdevries/gruvbuddy.nvim",
-    --     requries = {"tjdevries/colorbuddy.nvim"},
-    --     config = function()
-    --         require("colorbuddy").colorscheme("gruvbuddy")
-    --     end
-    -- }
 
     use "JuliaEditorSupport/julia-vim"
+
+    ----------------------------------------------------
+    -- Fun Stuff
+    ----------------------------------------------------
+    use "ThePrimeagen/vim-be-good"
+
 end)

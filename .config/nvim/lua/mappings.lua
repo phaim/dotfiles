@@ -1,24 +1,28 @@
 local map = require('utils').map
 local opt = {}
 
+
 -- Turn off search highlighting
-map("n", "<leader>h", [[ <Cmd> noh<CR>]], opt)
+map("n", "<leader>hl", [[ <Cmd> noh<CR>]], opt)
 
 -- Reload file
 map("n", "<F5>", [[ <Cmd> source %<CR>]], opt)
 
+--Edit file under cursor
+map("n", "gf", "<Cmd> e <cfile><CR>", opt)
+
 -- toggle numbers
 map("n", "<leader>n", [[ <Cmd> set nu! rnu!<CR>]], opt)
 
+-- Terminal
+map("t", "<Esc>", "<C-\\><C-n>", opt)
+-- TODO opening terminals right, bottom, new tab
+
 -- Window movement
 for _, c in ipairs({'h', 'j', 'k', 'l'}) do
-    map("n", "<C-"..c..">", "<C-W><C-"..c..">", opt) 
+    map("n", "<C-"..c..">", "<C-W>"..c.."", opt) 
+    map("t", "<C-"..c..">", "<C-\\><C-n><C-W>"..c.."", opt)
 end
-
--- OPEN TERMINALS --
--- map("n", "<C-l>", [[<Cmd>vnew term://bash <CR>]], opt) -- term over right
--- map("n", "<C-x>", [[<Cmd> split term://bash | resize 10 <CR>]], opt) --  term bottom
--- map("n", "<C-t>t", [[<Cmd> tabnew | term <CR>]], opt) -- term newtab
 
 
 -- Truezen.nvim
@@ -27,7 +31,7 @@ map("n", "<leader>zm", ":TZMinimalist<CR>", opt)
 map("n", "<leader>zf", ":TZFocus<CR>", opt)
 
 -- Commenter Keybinding
--- map("n", "<leader>/", ":CommentToggle<CR>",jopt)
+-- map("n", "<leader>/", ":CommentToggle<CR>", opt)
 -- map("v", "<leader>/", ":CommentToggle<CR>", opt)
 
 
@@ -37,31 +41,57 @@ map("n", "<leader>zf", ":TZFocus<CR>", opt)
 -- format code
 -- map("n", "<Leader>fm", [[<Cmd> Neoformat<CR>]], opt)
 
--- dashboard stuff
--- map("n", "<Leader>fw", [[<Cmd> Telescope live_grep<CR>]], opt)
--- map("n", "<Leader>db", [[<Cmd> Dashboard<CR>]], opt)
--- map("n", "<Leader>fn", [[<Cmd> DashboardNewFile<CR>]], opt)
--- map("n", "<Leader>bm", [[<Cmd> DashboardJumpMarks<CR>]], opt)
 -- map("n", "<C-s>l", [[<Cmd> SessionLoad<CR>]], opt)
 -- map("n", "<C-s>s", [[<Cmd> SessionSave<CR>]], opt)
 
--- Telescope
-map("n", "<Leader>st", [[<Cmd> Telescope git_status <CR>]], opt)
-map("n", "<Leader>cm", [[<Cmd> Telescope git_commits <CR>]], opt)
-map("n", "<Leader>ff", [[<Cmd> Telescope find_files <CR>]], opt)
--- map("n", "<Leader>fp", [[<Cmd>lua require('telescope').extensions.media_files.media_files()<CR>]], opt)
-map("n", "<Leader>bl", [[<Cmd> Telescope buffers<CR>]], opt)
-map("n", "<Leader>fb", [[<Cmd> Telescope file_browser<CR>]], opt)
-map("n", "<Leader>fh", [[<Cmd> Telescope help_tags<CR>]], opt)
-map("n", "<Leader>fo", [[<Cmd> Telescope oldfiles<CR>]], opt)
-map("n", "<Leader>gr", [[<Cmd> Telescope live_grep<CR>]], opt)
-map("n", "<Leader>gs", [[<Cmd> Telescope grep_string<CR>]], opt)
+-- finding stuff
+local wk = require("which-key")
 
--- bufferline tab stuff
-map("n", "<Leader>bp", [[<Cmd>BufferLinePick<CR>]])
+wk.register({
+    b = {
+        name = "Buffer",
+        l = {"<Cmd> Telescope buffers<CR>", "Search Buffer"},
+        p = {"<Cmd> BufferLinePick<CR>", "Pick Buffer"},
+        f = {"<Cmd> Telescope current_buffer_fuzzy_find<Cr>", "Fzf in buffer"},
+    },
+    f = {
+        name = "Finding",
+        f = {"<Cmd> Telescope find_files <CR>", "Search Files"},
+        g = {"<Cmd> Telescope git_files <CR>", "Search Git-Files"},
+        d = {"<Cmd> Telescope file_browser<CR>", "Show Directory"},
+        h = {"<Cmd> Telescope help_tags<CR>", "Search Help"},
+        o = {"<Cmd> Telescope oldfiles<CR>", "Search recent Files"},
+        l = {"<Cmd> Telescope live_grep<CR>", "Grep"},
+        s = {"<Cmd> Telescope grep_string<CR>", "Grep string under cursor"},
+    },
+    g = {
+        Name = "Git",
+        c = {"<Cmd> Telescope git_commits<CR>", "List Commits"},
+        l = {"<Cmd> Telescope git_bcommits<CR>", "List Commits for current file"},
+        s = {"<Cmd> Telescope git_status<CR>", "Show Status"},
+        h = {"<Cmd> Telescope git_stash<CR>", "Show Stash"},
+
+    },
+    h = {
+        name = "Hunk",
+        l = "which_key_ignore",
+    },
+    },{prefix = "<leader>"}
+)
+
+
+-- Telescope treesitter
+
+-- Telescope symbols
+
+-- quickfix
+-- loclist
+-- manpages
+
 
 map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
 map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+
 
 
 map("n", "<Leader>tt", [[<Cmd>tabedit %<CR>]], opt)
