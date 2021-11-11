@@ -76,6 +76,26 @@ wk.register({
         name = "Hunk",
         l = "which_key_ignore",
     },
+    t = {
+        name = "Tab",
+        c = {"<Cmd> tabclose<CR>", "close tab"},
+        e = {"<Cmd> tabedit %<CR>", "new tab"},
+        n = {"<Cmd> tabnext<CR>", "next tab"},
+        p = {"<Cmd> tabprev<CR>", "previous tab"},
+        -- m = {"<Cmd> tabm input()<CR>", "move tab"},
+    },
+
+
+    c = {
+        name = "Quickfix",
+        n = {"<Cmd>cnext<CR>"},
+        p = {"<Cmd>cprev<CR>"},
+    },
+    l = {
+        name = "Location List",
+        n = {"<Cmd>lne<CR>"},
+        p = {"<Cmd>lpe<CR>"},
+    },
     },{prefix = "<leader>"}
 )
 
@@ -88,16 +108,21 @@ wk.register({
 -- loclist
 -- manpages
 
+wk.register({
+    ["<C-c>"] = {
+        name = "Quickfix",
+        n = {"<Cmd> cn<CR>"},
+        p = {"<Cmd> cp<CR>"},
+    },
+    -- "<C-l>" = {
+    --     name = "Location List",
+    --     n = {"<Cmd> ln"},
+    --     p = {"<Cmd> lp"},
+    -- },
+    }
+)
+
 
 map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
 map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
 
-
-
-map("n", "<Leader>tt", [[<Cmd>tabedit %<CR>]], opt)
-map("n", "<Leader>tm", [[<Cmd>tabm<Space>]], opt)
-map("n", "<Leader>tn", [[<Cmd>tabnext<CR>]], opt)
-map("n", "<Leader>tp", [[<Cmd>tabprev<CR>]], opt)
-map("n", "<Leader>td", [[<Cmd>tabclose<CR>]], opt)
--- map("n", "<Leader>te", [[<Cmd>tabedit input()<CR>]], opt)
--- map("n", "<Leader>tm", [[<Cmd>tabmove input()<CR>]], opt)
