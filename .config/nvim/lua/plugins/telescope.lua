@@ -4,13 +4,23 @@ M.config = function()
     require('telescope').setup {
      	defaults = {
             layout_config = {
-                cursor = {height = 0.4},
-                bottom_pane = {height = 0.5},
             },
      	},
         pickers = {
-            lsp_references = { theme = "cursor", },
-            lsp_definitions = { theme = "cursor", },
+            lsp_references = {
+                layout_strategy = "cursor",
+                layout_config = {
+                    width = 0.7,
+                    height = 0.3,
+                }
+            },
+            lsp_definitions = {
+                layout_strategy = "cursor",
+                layout_config = {
+                    width = 0.7,
+                    height = 0.3,
+                }
+            },
 
             git_commits = { theme = "ivy", },
             git_bcommits = { theme = "ivy", },
@@ -36,6 +46,7 @@ M.config = function()
     }
 
     require('telescope').load_extension('fzf')
+    require('telescope').load_extension('projects')
     -- require('telescope').load_extension('media_files')
 end
 
