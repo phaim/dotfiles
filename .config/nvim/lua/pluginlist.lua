@@ -103,6 +103,8 @@ require("packer").startup(function()
     use "saadparwaiz1/cmp_luasnip"
     --use {'tzachar/fuzzy.nvim'}
     --use {'tzachar/cmp-fuzzy-buffer', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
+    --
+    use "mfussenegger/nvim-dap"
 
     use {
         "L3MON4D3/LuaSnip",
@@ -138,6 +140,9 @@ require("packer").startup(function()
     ----------------------------------------------------
     -- Nvim navigation (Bufferline, Nvim Tree etc.)
     ----------------------------------------------------
+    use {
+        "ThePrimeagen/harpoon"
+    }
     use {
         "glepnir/dashboard-nvim",
         config = function()
@@ -179,6 +184,14 @@ require("packer").startup(function()
     --     end
     -- }
     
+    -- Lua
+    use {
+      "ahmedkhalf/project.nvim",
+      config = function()
+        require("project_nvim").setup {}
+      end
+    }
+
 
     ----------------------------------------------------
     -- Productivity tools
