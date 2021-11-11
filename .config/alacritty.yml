@@ -108,18 +108,22 @@ scrolling:
 # Font configuration
 font:
   normal:
+    # family: victor mono
     family: source code pro
     style: Regular
 
   bold:
+    # family: victor mono
     family: source code pro
     style: Bold
 
   italic:
+    # family: victor mono
     family: source code pro
     style: Italic
 
   bolditalic:
+    # family: victor mono
     family: source code pro
     style: Bold Italic
 
