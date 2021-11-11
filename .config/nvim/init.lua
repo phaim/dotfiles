@@ -21,6 +21,18 @@ require "nvim-lsp"
 require "snippets"
 
 
+-- local ft_str = 
+--     table.concat(
+--         vim.tbl_map(
+--             function(ft)
+--                 return configs[ft].filetype or ft
+--             end,
+--             require("nvim-treesitter.parsers").parsers.availible_parsers()
+--         ),
+--         ","
+-- )
+vim.cmd("autocmd Filetype python setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()")
+--vim.cmd("autocmd Filetype " .. ft_str .. "setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()")
 
 vim.o.background = "dark"
 vim.g.gruvbox_material_backgruond = "hard"
