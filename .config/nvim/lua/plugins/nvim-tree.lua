@@ -1,5 +1,7 @@
 local M = {}
 
 M.config = function()
-    require("kyazdani42/nvim-tree.lua").setup{}
+    require("nvim-tree").setup{}
 end
+
+return M

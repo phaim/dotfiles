@@ -49,6 +49,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu
 bindsym $mod+d exec rofi -show run 
+bindsym $mod+c exec rofi -show calc -modi calc -no-show-match -no-sort
 
 # change focus
 bindsym $mod+h focus left
@@ -71,7 +72,7 @@ bindsym $mod+Mod1+Up move up
 bindsym $mod+Mod1+Right move right
 
 # split in horizontal orientation
-bindsym $mod+c split h
+bindsym $mod+Shift+v split h
 # split in vertical orientation
 bindsym $mod+v split v
 

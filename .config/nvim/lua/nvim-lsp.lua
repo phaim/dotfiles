@@ -26,6 +26,8 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.get()<CR>', opts)
+    -- Not sure which one is the up-to-date version
+    -- buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -70,3 +72,13 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
      capabilities = capabilities,
    }
  end
+
+
+-- require'lspconfig'.julials.setup{
+--    on_new_config = function(new_config, _)
+--        local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+--        if require'lspconfig'.util.path.is_file(julia) then
+--            new_config.cmd[1] = julia
+--        end
+--    end
+--}

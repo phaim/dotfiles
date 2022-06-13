@@ -35,6 +35,6 @@ require "snippets"
 -- vim.cmd("autocmd Filetype " .. ft_str .. "setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()")
 
 vim.o.background = "dark"
-vim.g.gruvbox_material_backgruond = "hard"
+--vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_palette = "original"
 vim.cmd([[colorscheme gruvbox-material]])

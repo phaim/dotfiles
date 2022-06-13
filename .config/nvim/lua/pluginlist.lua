@@ -1,6 +1,16 @@
 require("packer").startup(function()
     use "wbthomason/packer.nvim"
 
+    use{
+        "lewis6991/impatient.nvim",
+        config = {
+            -- Move to lua dir so impatient.nvim can cache it
+            compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua',
+            function()
+                require("impatient")
+            end
+        }
+    }
     use {
         "nvim-telescope/telescope.nvim",
         requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}},
@@ -49,13 +59,13 @@ require("packer").startup(function()
         end,
     }
 
-    use {
-        "onsails/lspkind-nvim",
-        -- event = "BufRead",
-        config = function()
-            require("lspkind").init()
-        end
-    }
+    -- use {
+    --     "onsails/lspkind-nvim",
+    --     -- event = "BufRead",
+    --     config = function()
+    --         require("lspkind").init()
+    --     end
+    -- }
 
     -- Git integration
     use {
@@ -76,7 +86,7 @@ require("packer").startup(function()
           'nvim-lua/plenary.nvim'
         },
         config = function()
-          require('gitsigns').setup()
+            require('gitsigns').setup()
         end
     }
 
@@ -145,18 +155,18 @@ require("packer").startup(function()
     use {
         "ThePrimeagen/harpoon"
     }
-    use {
-        "glepnir/dashboard-nvim",
-        config = function()
-            require("plugins.dashboard").config()
-        end
-    }
+    -- use {
+    --     "glepnir/dashboard-nvim",
+    --     config = function()
+    --         require("plugins.dashboard").config()
+    --     end
+    -- }
 
     use {
         "kyazdani42/nvim-tree.lua",
-        -- config = function()
-        --     require("nvim-tree.lua").setup{}
-        -- end
+        config = function()
+            require("plugins.nvim-tree").config()
+        end
     }
 
     use {
@@ -257,6 +267,8 @@ require("packer").startup(function()
     -- use {"tjdevries/colorbuddy.nvim"}
 
     use "JuliaEditorSupport/julia-vim"
+
+    use('kmonad/kmonad-vim')
 
     ----------------------------------------------------
     -- Fun Stuff
