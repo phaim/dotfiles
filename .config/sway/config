@@ -32,12 +32,12 @@ bindsym $mod+End exec swaylock \
 	--indicator-thickness 7 \
 	--effect-blur 7x5 \
 	--effect-vignette 0.5:0.5 \
-	--ring-color ffffff \
-	--key-hl-color 880033 \
+	--ring-color d0d0d0 \
+	--key-hl-color 555555 \
 	--line-color 00000000 \
 	--inside-color 00003388 \
 	--separator-color 00000000 \
-	--grace 2 \
+	--grace 3 \
 	--fade-in 0.2
 
 
@@ -169,7 +169,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-output "*" bg /home/philipp/Pictures/wallpaper/dead_wood.jpg fill
+output "*" bg /home/philipp/Pictures/wallpaper/cherry_flowers.jpg fill
+# output "*" bg /home/philipp/Pictures/wallpaper/dead_wood.jpg fill
  exec picom -f -i 1
 
 input * {
@@ -192,3 +193,6 @@ input type:touchpad {
 }
 
 default_border none
+
+#Should fix bug, where GTK+ applications take ~20s to start
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
