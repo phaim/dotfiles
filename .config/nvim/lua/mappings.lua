@@ -75,6 +75,9 @@ wk.register({
     h = {
         name = "Hunk",
         l = "which_key_ignore",
+        p = {"<Cmd> Gitsigns preview_hunk<CR>"},
+        s = {"<Cmd> Gitsigns stage_hunk<CR>"},
+        r = {"<Cmd> Gitsigns reset_hunk<CR>"},
     },
     t = {
         name = "Tab",

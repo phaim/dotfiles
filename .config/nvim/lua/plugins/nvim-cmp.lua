@@ -62,9 +62,9 @@ M.config = function()
             --{name = "fuzzy_buffer", keyword_length = 4},
         }),
 
-        formatting = {
-            format = require('lspkind').cmp_format({with_text = true, maxwidth = 50})
-        },
+        --formatting = {
+        --    format = require('lspkind').cmp_format({with_text = true, maxwidth = 50})
+        --},
 
         experimental = {
             native_menu = false,
