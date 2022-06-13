@@ -58,7 +58,7 @@ wk.register({
         name = "Finding",
         f = {"<Cmd> Telescope find_files <CR>", "Search Files"},
         g = {"<Cmd> Telescope git_files <CR>", "Search Git-Files"},
-        d = {"<Cmd> Telescope file_browser<CR>", "Show Directory"},
+        b = {"<Cmd> Telescope file_browser<CR>", "Show Directory"},
         h = {"<Cmd> Telescope help_tags<CR>", "Search Help"},
         o = {"<Cmd> Telescope oldfiles<CR>", "Search recent Files"},
         l = {"<Cmd> Telescope live_grep<CR>", "Grep"},
@@ -75,6 +75,17 @@ wk.register({
     h = {
         name = "Hunk",
         l = "which_key_ignore",
+        p = {"<Cmd> Gitsigns preview_hunk<CR>", "Preview Hunk"},
+        s = {"<Cmd> Gitsigns stage_hunk<CR>", "Stage Hunk"},
+        u = {"<Cmd> Gitsigns undo_stage_hunk<CR>", "Unstage Hunk"},
+        b = {"<Cmd> Gitsigns blame_line<CR>", "Blame Line"},
+    },
+
+    o = {
+        name = "Organize",
+        v = {"<Cmd> Neorg gtd views<CR>", "View tasks"},
+        a = {"<Cmd> Neorg gtd capture<CR>", "Add task"},
+        i = {"<Cmd> Neorg gtd edit<CR>", "Edit task"},
     },
     t = {
         name = "Tab",

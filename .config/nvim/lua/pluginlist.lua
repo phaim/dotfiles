@@ -37,12 +37,6 @@ require("packer").startup(function()
         "neovim/nvim-lspconfig",
      }
 
-    -- use {
-    --     "glepnir/lspsaga.nvim",
-    --     config = function()
-    --         require('plugins.lspsaga').config()
-    --     end
-    -- }
     use {
         "ray-x/lsp_signature.nvim",
         config = function()
@@ -64,6 +58,14 @@ require("packer").startup(function()
     }
 
     -- Git integration
+    use {
+        'TimUntersberger/neogit',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('neogit').setup()
+        end,
+    }
+
     use {
         "tpope/vim-fugitive",
     }
@@ -169,7 +171,7 @@ require("packer").startup(function()
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
-        cmd = require('lualine').setup(),
+        --cmd = require('lualine').setup(),
         config = function()
             require("plugins.lualine").config()
         end
@@ -199,20 +201,7 @@ require("packer").startup(function()
     use { 
         "vhyrro/neorg",
         config = function()
-            require('neorg').setup {
-                -- Tell Neorg what modules to load
-                load = {
-                    ["core.defaults"] = {}, -- Load all the default modules
-                    ["core.norg.concealer"] = {}, -- Allows for use of icons
-                    ["core.norg.dirman"] = { -- Manage your directories with Neorg
-                        config = {
-                            workspaces = {
-                                my_workspace = "~/neorg"
-                            }
-                        }
-                    }
-                },
-            }
+            require("plugins.neorg").setup()
         end,
         requires = "nvim-lua/plenary.nvim"
     }
@@ -263,6 +252,7 @@ require("packer").startup(function()
 
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
     use {"sainnhe/gruvbox-material"}
+    use {"kmonad/kmonad-vim"}
 
     -- use {"tjdevries/colorbuddy.nvim"}
 
