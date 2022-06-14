@@ -88,13 +88,19 @@ wk.register({
         a = {"<Cmd> Neorg gtd capture<CR>", "Add task"},
         i = {"<Cmd> Neorg gtd edit<CR>", "Edit task"},
     },
-    t = {
+    p = {
         name = "Tab",
         c = {"<Cmd> tabclose<CR>", "close tab"},
         e = {"<Cmd> tabedit %<CR>", "new tab"},
         n = {"<Cmd> tabnext<CR>", "next tab"},
         p = {"<Cmd> tabprev<CR>", "previous tab"},
         -- m = {"<Cmd> tabm input()<CR>", "move tab"},
+    },
+    t = {
+        name = "File Tree",
+        t = {"<Cmd> NvimTreeToggle<CR>", "toggle file tree"},
+        o = {"<Cmd> NvimTreeOpen<CR>", "open file tree"},
+        c = {"<Cmd> NvimTreeClose<CR>", "close file tree"},
     },
 
 
@@ -133,8 +139,3 @@ wk.register({
     -- },
     }
 )
-
-
-map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
-map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
-

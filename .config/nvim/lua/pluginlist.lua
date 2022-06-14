@@ -268,8 +268,6 @@ require("packer").startup(function()
 
     use "JuliaEditorSupport/julia-vim"
 
-    use('kmonad/kmonad-vim')
-
     ----------------------------------------------------
     -- Fun Stuff
     ----------------------------------------------------
