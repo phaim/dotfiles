@@ -24,6 +24,7 @@ require("packer").startup(function()
         run = "make",
         cmd = "Telescope"
     }
+    use { "nvim-telescope/telescope-file-browser.nvim" }
     -- use {
     --     "nvim-telescope/telescope-media-files.nvim",
     --     cmd = "Telescope"
@@ -131,12 +132,12 @@ require("packer").startup(function()
         config = function()
             require('nvim-autopairs').setup()
             -- If you want insert `(` after select function or method item
-            local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-            local cmp = require('cmp')
-            cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+            -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+            -- local cmp = require('cmp')
+            -- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
             -- add a lisp filetype (wrap my-function), FYI: Hardcoded = { "clojure", "clojurescript", "fennel", "janet" }
-            cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
+            -- cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
         end
 
     }
@@ -165,7 +166,8 @@ require("packer").startup(function()
     use {
         "kyazdani42/nvim-tree.lua",
         config = function()
-            require("plugins.nvim-tree").config()
+            require("nvim-tree").setup()
+            -- require("plugins.nvim-tree").config()
         end
     }
 
@@ -175,7 +177,6 @@ require("packer").startup(function()
         config = function()
             require("plugins.bufferline").config()
         end
-
     }
      
     use {
