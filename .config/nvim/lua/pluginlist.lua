@@ -1,3 +1,5 @@
+-- TODO rhysd/vim-grammarous
+
 require("packer").startup(function()
     use "wbthomason/packer.nvim"
 
@@ -117,8 +119,6 @@ require("packer").startup(function()
     --use {'tzachar/fuzzy.nvim'}
     --use {'tzachar/cmp-fuzzy-buffer', requires = {'hrsh7th/nvim-cmp', 'tzachar/fuzzy.nvim'}}
     --
-    use "mfussenegger/nvim-dap"
-
     use {
         "L3MON4D3/LuaSnip",
         config = function()
@@ -139,8 +139,23 @@ require("packer").startup(function()
             -- add a lisp filetype (wrap my-function), FYI: Hardcoded = { "clojure", "clojurescript", "fennel", "janet" }
             -- cmp_autopairs.lisp[#cmp_autopairs.lisp+1] = "racket"
         end
-
     }
+
+    -- Debuging
+    use {
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("plugins.dap").config()
+        end,
+        requires = {"mfussenegger/nvim-dap-python"}
+    }
+    use {
+        "mfussenegger/nvim-dap-python",
+    }
+    use "rcarriga/nvim-dap-ui"
+    use "theHamsta/nvim-dap-virtual-text"
+    use "nvim-telescope/telescope-dap.nvim"
+
 
     -- Tex
     use {

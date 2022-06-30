@@ -70,7 +70,6 @@ wk.register({
         l = {"<Cmd> Telescope git_bcommits<CR>", "List Commits for current file"},
         s = {"<Cmd> Telescope git_status<CR>", "Show Status"},
         h = {"<Cmd> Telescope git_stash<CR>", "Show Stash"},
-
     },
     h = {
         name = "Hunk",
@@ -80,6 +79,14 @@ wk.register({
         r = {"<Cmd> Gitsigns reset_hunk<CR>", "Reset Hunk"},
         u = {"<Cmd> Gitsigns undo_stage_hunk<CR>", "Unstage Hunk"},
         b = {"<Cmd> Gitsigns blame_line<CR>", "Blame Line"},
+    },
+    d = {
+        name = "Debug",
+        b = {"<Cmd>lua require'dap'.toggle_breakpoint()<CR>", "Toggle breakpoint"},
+        B = {"<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", "Set breakpoint"},
+        -- l = {"<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", "Set logpoint"},
+        r = {"<Cmd>lua require'dap'.repl.open()<CR>", "Open REPL"},
+        l = {"<Cmd>lua require'dap'.run_last()<CR>", "Run last"},
     },
 
     o = {
@@ -92,8 +99,6 @@ wk.register({
         name = "Tab",
         c = {"<Cmd> tabclose<CR>", "close tab"},
         e = {"<Cmd> tabedit %<CR>", "new tab"},
-        n = {"<Cmd> tabnext<CR>", "next tab"},
-        p = {"<Cmd> tabprev<CR>", "previous tab"},
         -- m = {"<Cmd> tabm input()<CR>", "move tab"},
     },
     t = {
@@ -137,5 +142,11 @@ wk.register({
     --     n = {"<Cmd> ln"},
     --     p = {"<Cmd> lp"},
     -- },
-    }
-)
+})
+
+wk.register({
+    ["<F8>"] = {"<cmd>lua require'dap'.continue()<CR>", "DAP continue"},
+    ["<F7>"] = {"<cmd>lua require'dap'.step_into()<CR>", "DAP step into"},
+    ["<F9>"] = {"<cmd>lua require'dap'.step_out()<CR>", "DAP step out"},
+    ["<F10>"] = {"<cmd>lua require'dap'.step_over()<CR>", "DAP step over"},
+})
