@@ -170,7 +170,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-output "*" bg /home/philipp/Pictures/wallpaper/cherry_flowers.jpg fill
+output "*" bg /home/philipp/Pictures/wallpaper/green_peak.jpg fill
 # output "*" bg /home/philipp/Pictures/wallpaper/dead_wood.jpg fill
  exec picom -f -i 1
 
