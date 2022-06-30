@@ -152,7 +152,12 @@ require("packer").startup(function()
     use {
         "mfussenegger/nvim-dap-python",
     }
-    use "rcarriga/nvim-dap-ui"
+    use {
+        "rcarriga/nvim-dap-ui",
+        config = function()
+            require("dapui").setup()
+        end,
+    }
     use "theHamsta/nvim-dap-virtual-text"
     use "nvim-telescope/telescope-dap.nvim"
 

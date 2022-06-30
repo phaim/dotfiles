@@ -87,6 +87,7 @@ wk.register({
         -- l = {"<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", "Set logpoint"},
         r = {"<Cmd>lua require'dap'.repl.open()<CR>", "Open REPL"},
         l = {"<Cmd>lua require'dap'.run_last()<CR>", "Run last"},
+        u = {"<Cmd>lua require'dapui'.open()<CR>", "Open UI"},
     },
 
     o = {
