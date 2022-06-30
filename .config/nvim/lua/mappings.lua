@@ -53,6 +53,7 @@ wk.register({
         l = {"<Cmd> Telescope buffers<CR>", "Search Buffer"},
         p = {"<Cmd> BufferLinePick<CR>", "Pick Buffer"},
         f = {"<Cmd> Telescope current_buffer_fuzzy_find<Cr>", "Fzf in buffer"},
+        c = {"<Cmd> %bd|e#|bd#", "Delete all but current buffer"}
     },
     f = {
         name = "Finding",
@@ -96,17 +97,19 @@ wk.register({
         a = {"<Cmd> Neorg gtd capture<CR>", "Add task"},
         i = {"<Cmd> Neorg gtd edit<CR>", "Edit task"},
     },
-    p = {
+    t = {
         name = "Tab",
         c = {"<Cmd> tabclose<CR>", "close tab"},
         e = {"<Cmd> tabedit %<CR>", "new tab"},
+        b = {"<Cmd> tabnew|b#|bd#<CR>", "open current buffer in new tab"}
+
         -- m = {"<Cmd> tabm input()<CR>", "move tab"},
     },
-    t = {
+    f = {
         name = "File Tree",
         t = {"<Cmd> NvimTreeToggle<CR>", "toggle file tree"},
-        o = {"<Cmd> NvimTreeOpen<CR>", "open file tree"},
-        c = {"<Cmd> NvimTreeClose<CR>", "close file tree"},
+        -- o = {"<Cmd> NvimTreeOpen<CR>", "open file tree"},
+        -- c = {"<Cmd> NvimTreeClose<CR>", "close file tree"},
     },
 
 
