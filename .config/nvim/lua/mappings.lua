@@ -57,6 +57,7 @@ wk.register({
     },
     f = {
         name = "Finding",
+        t = {"<Cmd> NvimTreeToggle<CR>", "toggle file tree"},
         f = {"<Cmd> Telescope find_files <CR>", "Search Files"},
         g = {"<Cmd> Telescope git_files <CR>", "Search Git-Files"},
         b = {"<Cmd> Telescope file_browser<CR>", "Show Directory"},
@@ -105,13 +106,6 @@ wk.register({
 
         -- m = {"<Cmd> tabm input()<CR>", "move tab"},
     },
-    f = {
-        name = "File Tree",
-        t = {"<Cmd> NvimTreeToggle<CR>", "toggle file tree"},
-        -- o = {"<Cmd> NvimTreeOpen<CR>", "open file tree"},
-        -- c = {"<Cmd> NvimTreeClose<CR>", "close file tree"},
-    },
-
 
     c = {
         name = "Quickfix",
