@@ -38,3 +38,12 @@ vim.o.background = "dark"
 --vim.g.gruvbox_material_background = "hard"
 vim.g.gruvbox_material_palette = "original"
 vim.cmd([[colorscheme gruvbox-material]])
+
+
+
+-- function find_pdf(toml_file)
+--     io.input(toml_file)
+--     toml = io.read("*all")
+--     name = string.find(toml, "[[output]]\n.*name=(%a+)")
+--     return name.."/"..name..".pdf"
+-- end

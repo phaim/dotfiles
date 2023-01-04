@@ -23,7 +23,8 @@ set $ws10 "10"
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
-set $lock_bg ~/Pictures/wallpaper/dead_wood.jpg
+set $lock_bg ~/Pictures/wallpaper/Mauksptize.jpg
+#set $lock_bg ~/Pictures/wallpaper/dead_wood.jpg
 bindsym $mod+End exec swaylock \
 	--screenshots \
 	--clock \
@@ -37,15 +38,14 @@ bindsym $mod+End exec swaylock \
 	--line-color 00000000 \
 	--inside-color 00003388 \
 	--separator-color 00000000 \
-	--grace 3 \
-	--fade-in 0.2
-
+	--grace 1 \
+	--fade-in 0.2\
 
 # exec swayidle -w \
-#     timeout 30 'swaylock -f -c 000000 -i $lock_bg' \
-#     timeout 60 'swaymsg "output * dpms off"' \
-#         resume 'swaymsg "output * dpms on"' \
-#     before-sleep 'swaylock -f -c 000000 -i $lock_bg'
+#          timeout 300 'swaylock -f -c 000000 -i $lock_bg' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000 -i $lock_bg'
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -170,8 +170,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-output "*" bg /home/philipp/Pictures/wallpaper/green_peak.jpg fill
-# output "*" bg /home/philipp/Pictures/wallpaper/dead_wood.jpg fill
+output "*" bg /home/philipp/Pictures/wallpaper/Mauksptize.jpg fill
+# output "*" bg /home/philipp/Pictures/wallpaper/sunset_kochel.jpg fill
  exec picom -f -i 1
 
 input * {
@@ -197,3 +197,6 @@ default_border none
 
 #Should fix bug, where GTK+ applications take ~20s to start
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1

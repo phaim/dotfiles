@@ -60,7 +60,7 @@ end
 -- map buffer local keybindings when the language server attaches
 local servers = {"pylsp", "julials", "ccls", "rust_analyzer", "texlab"}
 -- capabilities added by nvim-cmp
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
  for _, lsp in ipairs(servers) do
     require("lspconfig")[lsp].setup {
      on_attach = on_attach,
@@ -70,6 +70,30 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
      capabilities = capabilities,
    }
  end
+
+require("lspconfig").texlab.setup{
+    settings = {
+        texlab = {
+            build = {
+                executable = 'tectonic',
+                args = {
+                    "-X",
+                    "compile",
+                    "main.tex",
+                    "--synctex",
+                    "--keep-logs",
+                    "--keep-intermediates"
+                },
+                onSave = true,
+                -- forwardSearchAfter = true,
+            },
+            forwardSearch = {
+                executable = "zathura",
+                args = {"--synctex-forward", "%l:1:%f", "%p"}
+            }
+        }
+    }
+}
 
 
 -- require'lspconfig'.julials.setup{

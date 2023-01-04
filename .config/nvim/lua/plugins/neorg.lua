@@ -15,13 +15,13 @@ M.setup = function()
                     }
                 }
             },
-            ["core.gtd.base"] = {
-                config = {
-                    workspace = "agenda",
-                    default_lists = {inbox = "agenda.norg"},
+            -- ["core.gtd.base"] = {
+            --     config = {
+            --         workspace = "agenda",
+            --         default_lists = {inbox = "agenda.norg"},
 
-                }
-            },
+            --     }
+            -- },
         },
     }
 end

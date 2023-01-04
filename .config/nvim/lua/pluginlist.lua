@@ -202,7 +202,6 @@ require("packer").startup(function()
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
-        --cmd = require('lualine').setup(),
         config = function()
             require("plugins.lualine").config()
         end
@@ -230,11 +229,21 @@ require("packer").startup(function()
     -- Productivity tools
     ----------------------------------------------------
     use { 
-        "vhyrro/neorg",
+        "nvim-neorg/neorg",
+        run = ":Neorg sync-parsers",
         config = function()
             require("plugins.neorg").setup()
         end,
         requires = "nvim-lua/plenary.nvim"
+    }
+
+    use {
+        'phaazon/mind.nvim',
+        branch = 'v2.2',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require("plugins.mind").setup()
+        end
     }
 
     use {
@@ -251,7 +260,7 @@ require("packer").startup(function()
         end
     }
 
-    use "Pocco81/TrueZen.nvim"
+    -- use "Pocco81/TrueZen.nvim"
 
     use {
         "folke/twilight.nvim",

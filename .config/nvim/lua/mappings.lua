@@ -24,6 +24,9 @@ for _, c in ipairs({'h', 'j', 'k', 'l'}) do
     map("t", "<C-"..c..">", "<C-\\><C-n><C-W>"..c.."", opt)
 end
 
+-- Buffers
+map("n", "<leader><leader>n", ":bn<CR>", opt)
+map("n", "<leader><leader>p", ":bp<CR>", opt)
 
 -- Truezen.nvim
 map("n", "<leader>zz", ":TZAtaraxis<CR>", opt)
@@ -52,8 +55,8 @@ wk.register({
         name = "Buffer",
         l = {"<Cmd> Telescope buffers<CR>", "Search Buffer"},
         p = {"<Cmd> BufferLinePick<CR>", "Pick Buffer"},
-        f = {"<Cmd> Telescope current_buffer_fuzzy_find<Cr>", "Fzf in buffer"},
-        c = {"<Cmd> %bd|e#|bd#", "Delete all but current buffer"}
+        f = {"<Cmd> Telescope current_buffer_fuzzy_find<CR>", "Fzf in buffer"},
+        c = {"<Cmd> %bd|e#|bd#<CR>", "Delete all but current buffer"}
     },
     f = {
         name = "Finding",
@@ -90,6 +93,12 @@ wk.register({
         r = {"<Cmd>lua require'dap'.repl.open()<CR>", "Open REPL"},
         l = {"<Cmd>lua require'dap'.run_last()<CR>", "Run last"},
         u = {"<Cmd>lua require'dapui'.open()<CR>", "Open UI"},
+    },
+    m = {
+        name = "Mind",
+        o = {"<Cmd> MindOpenMain<CR>", "Open Main"},
+        p = {"<Cmd> MindOpenSmartProject<CR>", "Open Project"},
+        c = {"<Cmd> MindClose<CR>", "Close"},
     },
 
     o = {

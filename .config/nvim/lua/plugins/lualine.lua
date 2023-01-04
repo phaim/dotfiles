@@ -24,12 +24,14 @@ M.config = function()
     require('lualine').setup{
         options = {
             theme = 'gruvbox-material',
-            component_separators = '',
-            section_separators = {left = '', right = ''}
+             component_separators = '|',
+            section_separators = {left = '', right = ''}
+            -- component_separators = '',
+            -- section_separators = {left = '', right = ''}
         },
-        sections = {
-            lualine_x = {'lsp_progress', 'encoding', 'filetype'},
-        },
+        -- sections = {
+        --     lualine_x = {'lsp_progress', 'encoding', 'filetype'},
+        -- },
     }
 end
 
