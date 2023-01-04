@@ -1,0 +1,63 @@
+* Forward-jacobian
+
+** Examples
+@code julia
+    @tangent setindex!(x::AbstractArray, v, inds...) =
+      setindex!(x, v, inds...), (ẋ, v̇, _...) -> setindex!(ẋ, v̇, inds...)
+
+    @tangent mul!(C, A, B) = mul!(C, A, B), (Ċ, Ȧ, Ḃ) -> Ċ .= Ȧ*B .+ A*Ḃ
+
+    @tangent A::AbstractArray * B::AbstractArray = A*B, (Ȧ, Ḃ) -> Ȧ*B .+ A*Ḃ
+
+    @tangent broadcasted(::typeof(identity), x::Numeric) = x, (_, ẋ) -> ẋ
+
+    @tangent broadcasted(::typeof(+), xs::Numeric...) =
+        broadcast(+, xs...), (_, ẋs...) -> broadcast(+, ẋs...)
+
+    @tangent function broadcasted(::typeof(tanh), x::Numeric)
+        y = tanh.(x)
+        y, (_, ẋ) -> ẋ .* (1 .- y.^2)
+    end
+@end
+
+** Required
+Implement these rules for all relevant operators:
+  - FFT
+  - ELU
+  - Convolution
+
+FFT and convolution are linear, their jacobian is trivial:
+@code julia
+    @tangent fft(A) = fft(A), (B) -> fft(B)
+    @tangent conv(A) = conv(A), (B) -> conv(B)
+@end
+
+
+*** *ELU definition*
+@code julia
+    function gelu(x)
+        α = oftf(x, 0.044715)
+        # λ = oftf(x, gelu_λ)
+        # x/2 * (1 + tanh(λ * (x + α * x^3)))  # Standard implementation, for reference
+        λλ = oftf(x, gelu_2λ)
+        x * sigmoid_fast(λλ * x * muladd(x^2, α, one(x)))  # This is faster & more accurate
+    end
+    const gelu_λ = √(2 / π)
+    const gelu_2λ = √(8 / π)
+
+    @inline function sigmoid_fast(x::Real)
+        t = @fastmath exp(-abs(x))
+        y = ifelse(x ≥ 0, inv(1 + t), t / (1 + t))
+        ifelse(x > 40, one(y), ifelse(x < -80, zero(y), y))
+    end
+@end
+
+*** *ELU derivative*
+@code julia
+    function gelu_der(x)
+        α = oftf(x, 0.044715)
+        λλ = oftf(x, gelu_2λ)
+        sig_val = λλ * x * muladd(x^2, α, one(x))
+        sigmoid_fast(sig_val) + x * sigmoid_der(sig_val) * λλ * muladd(x^2, 3*α, one(x))
+    end
+@end
