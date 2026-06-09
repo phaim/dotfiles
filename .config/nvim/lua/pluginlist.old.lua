@@ -121,8 +121,20 @@ require("packer").startup(function()
     --
     use {
         "L3MON4D3/LuaSnip",
+        tag = "v2.*",
+        run = "make install_jsregexp",
+        requires = {"rafamadriz/friendly-snippets"},
         config = function()
-            require("plugins.snippets").config()
+            local ls = require("luasnip")
+            vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent=true})
+            vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent=true})
+            vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent=true})
+            vim.keymap.set({"i", "s"}, "<C-E>", function() 
+                                                    if ls.choice_active() then
+                                                        ls.change_choise(1)
+                                                    end
+                                                end, {silent=true})
+            require("luasnip.loaders.from_vscode").lazy_load()
         end
     }
     use "rafamadriz/friendly-snippets"

@@ -1,12 +1,18 @@
 --------------------------------------------------
--- Bootstrap Packer
+-- Bootstrap Lazy
 --------------------------------------------------
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.api.nvim_command 'packadd packer.nvim'
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
 --------------------------------------------------
 -- Config
@@ -14,11 +20,14 @@ end
 vim.g.mapleader = " "
 vim.g.autosave = false
 
-require "pluginlist"
+
+require("lazy").setup("plugins")
 require "options"
 require "mappings"
 require "nvim-lsp"
 require "snippets"
+
+vim.opt.completeopt = "menu,menuone,noinsert,noselect"
 
 
 -- local ft_str = 
@@ -34,12 +43,15 @@ require "snippets"
 -- vim.cmd("autocmd Filetype python setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()")
 -- vim.cmd("autocmd Filetype " .. ft_str .. "setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()")
 
-vim.o.background = "dark"
---vim.g.gruvbox_material_background = "hard"
+-- vim.o.background = "dark"
+vim.g.gruvbox_material_background = "medium"
 vim.g.gruvbox_material_palette = "original"
-vim.cmd([[colorscheme gruvbox-material]])
+vim.cmd.colorscheme("gruvbox-material")
 
-
+-- vim.api.nvim_create_autocmd('FileType', {
+--   callback = function() vim.treesitter.start() end,
+-- })
+--
 
 -- function find_pdf(toml_file)
 --     io.input(toml_file)

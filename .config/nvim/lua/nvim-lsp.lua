@@ -32,68 +32,119 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
     
 
-    local wk = require("which-key")
-    wk.register({
-        ["<leader>"] = {
-            l = {
-                name = "LSP",
-                r = {"<Cmd> Telescope lsp_references<CR>", "Show references"},
-                d = {"<Cmd> Telescope lsp_definitions<CR>", "Show definition"},
-                s = {"<Cmd> Telescope lsp_document_symbols<CR>", "Show document symbols"},
-                w = {"<Cmd> Telescope lsp_workspace_symbols<CR>", "Show workspace symbols"},
-            },
-            k = {"<Cmd> lua vim.lsp.buf.hover()<CR>", "hover"},
 
-        },
-        g = {
-            name = "goto",
-            d = {"<Cmd> lua vim.lsp.buf.definition()<CR>", "go to definition"},
-            D = {"<Cmd> lua vim.lsp.buf.declaration()<CR>", "go to declaration"},
-            i = {"<Cmd> lua vim.lsp.buf.implementation()<CR>", "go to implementation"},
-        },
-        },{buffer = bufnr,}
-    )
+    local wk = require("which-key")
+    wk.add({
+        {"<leader>l", group="LSP"},
+        {"<leader>lr", "<Cmd> Telescope lsp_references<CR>", desc="Show references"},
+        {"<leader>ld", "<Cmd> Telescope lsp_definitions<CR>", desc="Show definition"},
+        {"<leader>ls", "<Cmd> Telescope lsp_document_symbols<CR>", desc="Show document symbols"},
+        {"<leader>lw", "<Cmd> Telescope lsp_workspace_symbols<CR>", desc="Show workspace symbols"},
+        {"<leader>k", "<Cmd> lua vim.lsp.buf.hover()<CR>", desc="hover"},
+
+        -- {"g", group="goto"},
+        {"gd", "<Cmd> lua vim.lsp.buf.definition()<CR>", desc="go to definition"},
+        {"gD", "<Cmd> lua vim.lsp.buf.declaration()<CR>", desc="go to declaration"},
+        {"gi", "<Cmd> lua vim.lsp.buf.implementation()<CR>", desc="go to implementation"},
+    })
+    -- wk.register({
+    --     ["<leader>"] = {
+    --         l = {
+    --             name = "LSP",
+    --         },
+    --         k = {"<Cmd> lua vim.lsp.buf.hover()<CR>", "hover"},
+
+    --     },
+    --     g = {
+    --         name = "goto",
+    --     },
+    --     },{buffer = bufnr,}
+    -- )
 end
 
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = {"pylsp", "julials", "ccls", "rust_analyzer", "texlab"}
+local servers = {"julials", "ccls", "rust_analyzer", "texlab"}
 -- capabilities added by nvim-cmp
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
- for _, lsp in ipairs(servers) do
-    require("lspconfig")[lsp].setup {
-     on_attach = on_attach,
-     flags = {
-       debounce_text_changes = 150,
-     },
-     capabilities = capabilities,
-   }
- end
+for _, lsp in ipairs(servers) do
+    vim.lsp.enable(lsp)
+    vim.lsp.config(
+        lsp,
+        {
+        on_attach = on_attach,
+        root_markers = {'.git'},
+        }
+    )
+   -- require("lspconfig")[lsp].setup {
+   --  on_attach = on_attach,
+   --  flags = {
+   --    debounce_text_changes = 150,
+   --  },
+   --  capabilities = capabilities,
+   --  }
+end
 
-require("lspconfig").texlab.setup{
-    settings = {
-        texlab = {
-            build = {
-                executable = 'tectonic',
-                args = {
-                    "-X",
-                    "compile",
-                    "main.tex",
-                    "--synctex",
-                    "--keep-logs",
-                    "--keep-intermediates"
-                },
-                onSave = true,
-                -- forwardSearchAfter = true,
-            },
-            forwardSearch = {
-                executable = "zathura",
-                args = {"--synctex-forward", "%l:1:%f", "%p"}
+-- require("lspconfig").texlab.setup{
+--     settings = {
+--         texlab = {
+--             build = {
+--                 executable = 'tectonic',
+--                 args = {
+--                     "-X",
+--                     "compile",
+--                     "main.tex",
+--                     "--synctex",
+--                     "--keep-logs",
+--                     "--keep-intermediates"
+--                 },
+--                 onSave = true,
+--                 -- forwardSearchAfter = true,
+--             },
+--             forwardSearch = {
+--                 executable = "zathura",
+--                 args = {"--synctex-forward", "%l:1:%f", "%p"}
+--             }
+--         }
+--     }
+-- }
+-- 
+vim.lsp.enable("pylsp")
+vim.lsp.config(
+    "pylsp",
+    {
+        on_attach = on_attach,
+        root_markers = {'.git'},
+        settings = {
+          pylsp = {
+            plugins = {
+              pycodestyle = {
+                -- ignore = {'W391'},
+                maxLineLength = 130
+                  }
+                }
             }
         }
     }
-}
+)
+-- require('lspconfig').pylsp.setup{
+--      on_attach = on_attach,
+--      flags = {
+--        debounce_text_changes = 150,
+--      },
+--      capabilities = capabilities,
+--      settings = {
+--        pylsp = {
+--          plugins = {
+--            pycodestyle = {
+--              -- ignore = {'W391'},
+--              maxLineLength = 100
+--            }
+--          }
+--        }
+--      }
+--    }
 
 
 -- require'lspconfig'.julials.setup{
