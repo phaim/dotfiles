@@ -79,6 +79,25 @@ wk.add({
         {"<leader>gl", "<Cmd> Telescope git_bcommits<CR>", desc="List Commits for current file"},
         {"<leader>gs", "<Cmd> Telescope git_status<CR>", desc="Show Status"},
         {"<leader>gh", "<Cmd> Telescope git_stash<CR>", desc="Show Stash"},
+        {"<leader>gd", "<Cmd> DiffviewOpen<CR>", desc="Diff working tree"},
+        {"<leader>gD", "<Cmd> DiffviewOpen HEAD<CR>", desc="Diff vs HEAD"},
+        {"<leader>gf", "<Cmd> DiffviewFileHistory %<CR>", desc="File history (current)"},
+        {"<leader>gF", "<Cmd> DiffviewFileHistory<CR>", desc="File history (repo)"},
+        {"<leader>gx", "<Cmd> DiffviewClose<CR>", desc="Close Diffview"},
+        {"<leader>gR", function()
+            require("telescope.builtin").git_branches({
+                attach_mappings = function(_, map)
+                    local actions = require("telescope.actions")
+                    local state = require("telescope.actions.state")
+                    actions.select_default:replace(function(prompt_bufnr)
+                        local branch = state.get_selected_entry().name
+                        actions.close(prompt_bufnr)
+                        vim.cmd("DiffviewOpen " .. branch .. "..HEAD")
+                    end)
+                    return true
+                end
+            })
+        end, desc="Diff vs branch (picker)"},
     },
 
     {
