@@ -1,157 +1,113 @@
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-     require "lsp_signature".on_attach()
+-- Buffer-local LSP keymaps, applied whenever any server attaches.
+-- Using LspAttach (instead of a per-server on_attach) means these survive
+-- even for servers that define their own on_attach, e.g. julials.
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        require("lsp_signature").on_attach()
 
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+        local opts = { buffer = args.buf, silent = true }
+        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set("n", "<leader>wl", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, opts)
+        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, opts)
+        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
 
-    --Enable completion triggered by <c-x><c-o>
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- Inlay hints on by default, with a toggle.
+        vim.lsp.inlay_hint.enable(false, { bufnr = args.buf })
+        vim.keymap.set("n", "<leader>th", function()
+            local on = vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf })
+            vim.lsp.inlay_hint.enable(not on, { bufnr = args.buf })
+        end, { buffer = args.buf, silent = true, desc = "Toggle inlay hints" })
 
-    -- Mappings.
-    local opts = { noremap=true, silent=true }
+        -- Call hierarchy.
+        vim.keymap.set("n", "<leader>lc", vim.lsp.buf.incoming_calls,
+            { buffer = args.buf, silent = true, desc = "Incoming calls" })
+        vim.keymap.set("n", "<leader>lC", vim.lsp.buf.outgoing_calls,
+            { buffer = args.buf, silent = true, desc = "Outgoing calls" })
 
-    --See `:help vim.lsp.*` for documentation on any of the below functions
-    --buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    -- buf_set_keymap('n', '<leader>k', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    -- buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    
+        -- basedpyright: organize imports (command exists only on python buffers).
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.name == "basedpyright" then
+            vim.keymap.set("n", "<leader>lo", "<Cmd>LspPyrightOrganizeImports<CR>",
+                { buffer = args.buf, silent = true, desc = "Organize imports" })
+        end
+    end,
+})
 
+-- which-key descriptions + LSP navigation maps.
+require("which-key").add({
+    { "<leader>l", group = "LSP" },
+    { "<leader>lr", "<Cmd>Telescope lsp_references<CR>", desc = "Show references" },
+    { "<leader>ld", "<Cmd>Telescope lsp_definitions<CR>", desc = "Show definition" },
+    { "<leader>ls", "<Cmd>Telescope lsp_document_symbols<CR>", desc = "Show document symbols" },
+    { "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", desc = "Show workspace symbols (live)" },
+    { "<leader>k", vim.lsp.buf.hover, desc = "hover" },
 
-    local wk = require("which-key")
-    wk.add({
-        {"<leader>l", group="LSP"},
-        {"<leader>lr", "<Cmd> Telescope lsp_references<CR>", desc="Show references"},
-        {"<leader>ld", "<Cmd> Telescope lsp_definitions<CR>", desc="Show definition"},
-        {"<leader>ls", "<Cmd> Telescope lsp_document_symbols<CR>", desc="Show document symbols"},
-        {"<leader>lw", "<Cmd> Telescope lsp_workspace_symbols<CR>", desc="Show workspace symbols"},
-        {"<leader>k", "<Cmd> lua vim.lsp.buf.hover()<CR>", desc="hover"},
+    { "gd", vim.lsp.buf.definition, desc = "go to definition" },
+    { "gD", vim.lsp.buf.declaration, desc = "go to declaration" },
+    { "gi", vim.lsp.buf.implementation, desc = "go to implementation" },
+})
 
-        -- {"g", group="goto"},
-        {"gd", "<Cmd> lua vim.lsp.buf.definition()<CR>", desc="go to definition"},
-        {"gD", "<Cmd> lua vim.lsp.buf.declaration()<CR>", desc="go to declaration"},
-        {"gi", "<Cmd> lua vim.lsp.buf.implementation()<CR>", desc="go to implementation"},
-    })
-    -- wk.register({
-    --     ["<leader>"] = {
-    --         l = {
-    --             name = "LSP",
-    --         },
-    --         k = {"<Cmd> lua vim.lsp.buf.hover()<CR>", "hover"},
+-- Defaults shared by every server (merged with each server's own config).
+vim.lsp.config("*", {
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
+    root_markers = { ".git" },
+})
 
-    --     },
-    --     g = {
-    --         name = "goto",
-    --     },
-    --     },{buffer = bufnr,}
-    -- )
+-- Python type-checking + completion. basedpyright auto-detects the project
+-- venv (.venv, or an active VIRTUAL_ENV), so no manual environment wiring
+-- is needed. Its default "recommended" mode is strict; "standard" matches
+-- pyright and is a gentler starting point coming from pylsp.
+vim.lsp.config("basedpyright", {
+    settings = {
+        basedpyright = {
+            analysis = {
+                typeCheckingMode = "basic",
+            },
+        },
+    },
+})
+
+-- LaTeX: build with tectonic, forward-search with zathura.
+vim.lsp.config("texlab", {
+    settings = {
+        texlab = {
+            build = {
+                executable = "tectonic",
+                args = {
+                    "-X",
+                    "compile",
+                    "main.tex",
+                    "--synctex",
+                    "--keep-logs",
+                    "--keep-intermediates",
+                },
+                onSave = true,
+            },
+            forwardSearch = {
+                executable = "zathura",
+                args = { "--synctex-forward", "%l:1:%f", "%p" },
+            },
+        },
+    },
+})
+
+-- Julia: prefer the julia binary from the dedicated LSP environment if present.
+local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+if vim.fn.executable(julia) == 1 then
+    local cmd = vim.deepcopy(vim.lsp.config.julials.cmd)
+    cmd[1] = julia
+    vim.lsp.config("julials", { cmd = cmd })
 end
 
-
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = {"julials", "ccls", "rust_analyzer", "texlab"}
--- capabilities added by nvim-cmp
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-for _, lsp in ipairs(servers) do
-    vim.lsp.enable(lsp)
-    vim.lsp.config(
-        lsp,
-        {
-        on_attach = on_attach,
-        root_markers = {'.git'},
-        }
-    )
-   -- require("lspconfig")[lsp].setup {
-   --  on_attach = on_attach,
-   --  flags = {
-   --    debounce_text_changes = 150,
-   --  },
-   --  capabilities = capabilities,
-   --  }
-end
-
--- require("lspconfig").texlab.setup{
---     settings = {
---         texlab = {
---             build = {
---                 executable = 'tectonic',
---                 args = {
---                     "-X",
---                     "compile",
---                     "main.tex",
---                     "--synctex",
---                     "--keep-logs",
---                     "--keep-intermediates"
---                 },
---                 onSave = true,
---                 -- forwardSearchAfter = true,
---             },
---             forwardSearch = {
---                 executable = "zathura",
---                 args = {"--synctex-forward", "%l:1:%f", "%p"}
---             }
---         }
---     }
--- }
--- 
-vim.lsp.enable("pylsp")
-vim.lsp.config(
-    "pylsp",
-    {
-        on_attach = on_attach,
-        root_markers = {'.git'},
-        settings = {
-          pylsp = {
-            plugins = {
-              pycodestyle = {
-                -- ignore = {'W391'},
-                maxLineLength = 130
-                  }
-                }
-            }
-        }
-    }
-)
--- require('lspconfig').pylsp.setup{
---      on_attach = on_attach,
---      flags = {
---        debounce_text_changes = 150,
---      },
---      capabilities = capabilities,
---      settings = {
---        pylsp = {
---          plugins = {
---            pycodestyle = {
---              -- ignore = {'W391'},
---              maxLineLength = 100
---            }
---          }
---        }
---      }
---    }
-
-
--- require'lspconfig'.julials.setup{
---    on_new_config = function(new_config, _)
---        local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
---        if require'lspconfig'.util.path.is_file(julia) then
---            new_config.cmd[1] = julia
---        end
---    end
---}
+vim.lsp.enable({ "julials", "ccls", "rust_analyzer", "texlab", "basedpyright" })

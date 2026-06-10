@@ -118,6 +118,7 @@ wk.add({
         {"<leader>t", group="Tab"},
         {"<leader>tc", "<Cmd> tabclose<CR>", desc="close tab"},
         {"<leader>te", "<Cmd> tabedit %<CR>", desc="new tab"},
+        {"<leader>tC", function() require("treesitter-context").toggle() end, desc="toggle context"},
     },
     -- {"<leader>tb", "<Cmd> tabnew|b#|bd#<CR>", "open current buffer in new tab"},
     -- m = {"<Cmd> tabm input()<CR>", "move tab"},
