@@ -12,6 +12,11 @@ do
     end
 end
 
+-- Ensure git-related parsers are installed (required by Neogit)
+require("nvim-treesitter").setup({
+  ensure_installed = { "gitcommit", "git_rebase", "gitignore" },
+})
+
 -- Treesitter: enable highlighting/indents per filetype
 vim.treesitter.language.register("bash", "sh")
 vim.api.nvim_create_autocmd("FileType", {
