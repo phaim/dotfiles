@@ -6,7 +6,9 @@ font pango:Source Code Pro for Powerline 10
 gaps outer 10
 gaps inner 10
 
+# win principal, alt secondary
 set $mod Mod4
+set $mod2 ctrl
 
 set $ws1 "1"
 set $ws2 "2"
@@ -17,7 +19,40 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10: Spotify"
+set $ws10 "10"
+
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+set $ws15 "15"
+set $ws16 "16"
+set $ws17 "17"
+set $ws18 "18"
+set $ws19 "19"
+set $ws20 "20"
+
+workspace $ws1 output DP-0
+workspace $ws2 output DP-0
+workspace $ws3 output DP-0
+workspace $ws4 output DP-0
+workspace $ws5 output DP-0
+workspace $ws6 output DP-0
+workspace $ws7 output DP-0
+workspace $ws8 output DP-0
+workspace $ws9 output DP-0
+workspace $ws10 output DP-0
+
+workspace $ws11 output HDMI-0
+workspace $ws12 output HDMI-0
+workspace $ws13 output HDMI-0
+workspace $ws14 output HDMI-0
+workspace $ws15 output HDMI-0
+workspace $ws16 output HDMI-0
+workspace $ws17 output HDMI-0
+workspace $ws18 output HDMI-0
+workspace $ws19 output HDMI-0
+workspace $ws20 output HDMI-0
 
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
@@ -25,18 +60,15 @@ set $ws10 "10: Spotify"
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --blur 20 --clock --indicator --keylayout 1 --nofork
+
+bindsym $mod+End exec --no-startup-id i3lock --blur 20 --clock --indicator --keylayout 1 && sleep 20 && xset dpms force off
+
+#  --time-str="%H:%M:%S" --date-str="%A, %Y-%m-%d"
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 #exec --no-startup-id nm-applet
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -107,6 +139,18 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
+bindsym $mod2+1 workspace 11
+bindsym $mod2+2 workspace 12
+bindsym $mod2+3 workspace 13
+bindsym $mod2+4 workspace 14
+bindsym $mod2+5 workspace 15
+bindsym $mod2+6 workspace 16
+bindsym $mod2+7 workspace 17
+bindsym $mod2+8 workspace 18
+bindsym $mod2+9 workspace 19
+bindsym $mod2+0 workspace 20
+
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -118,6 +162,17 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod2+Shift+1 move container to workspace number $ws11
+bindsym $mod2+Shift+2 move container to workspace number $ws12
+bindsym $mod2+Shift+3 move container to workspace number $ws13
+bindsym $mod2+Shift+4 move container to workspace number $ws14
+bindsym $mod2+Shift+5 move container to workspace number $ws15
+bindsym $mod2+Shift+6 move container to workspace number $ws16
+bindsym $mod2+Shift+7 move container to workspace number $ws17
+bindsym $mod2+Shift+8 move container to workspace number $ws18
+bindsym $mod2+Shift+9 move container to workspace number $ws19
+bindsym $mod2+Shift+0 move container to workspace number $ws20
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -153,12 +208,12 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 
 
+ exec_always --no-startup-id $HOME/.screenlayout/two_screen.sh
  exec_always --no-startup-id $HOME/.config/polybar/launch.sh
- exec_always --no-startup-id feh --bg-scale $HOME/Pictures/wallpaper/dead_wood.jpg
+ exec_always --no-startup-id feh --bg-fill $HOME/Pictures/dauphine.jpeg
  exec picom -f -i 1
 
-exec "setxkbmap -layout us,de"
-exec "setxkbmap -option 'grp:alt_shift_toggle'"
+exec "setxkbmap -layout us,de -option 'grp:alt_shift_toggle,caps:swapescape'"
 
 
 assign [class="Spotify"] $ws10
