@@ -78,22 +78,9 @@ vim.lsp.config("basedpyright", {
     },
 })
 
--- LaTeX: build with tectonic, forward-search with zathura.
 vim.lsp.config("texlab", {
     settings = {
         texlab = {
-            build = {
-                executable = "tectonic",
-                args = {
-                    "-X",
-                    "compile",
-                    "main.tex",
-                    "--synctex",
-                    "--keep-logs",
-                    "--keep-intermediates",
-                },
-                onSave = true,
-            },
             forwardSearch = {
                 executable = "zathura",
                 args = { "--synctex-forward", "%l:1:%f", "%p" },

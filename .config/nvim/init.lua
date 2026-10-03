@@ -22,6 +22,8 @@ vim.treesitter.language.register("bash", "sh")
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("tree-sitter-enable", { clear = true }),
   callback = function(args)
+    -- vimtex needs its own syntax (math zones, conceal); don't let TS replace it
+    if args.match == "tex" or args.match == "plaintex" or args.match == "bib" then return end
     local lang = vim.treesitter.language.get_lang(args.match)
     if not lang then return end
     if vim.treesitter.query.get(lang, "highlights") then
