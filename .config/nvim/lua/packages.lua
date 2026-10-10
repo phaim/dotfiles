@@ -81,3 +81,4 @@ pack("JuliaEditorSupport/julia-vim")
 
 -- Misc
 pack("dstein64/vim-startuptime")
+pack("coder/claudecode.nvim")

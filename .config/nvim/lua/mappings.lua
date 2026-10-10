@@ -146,6 +146,18 @@ wk.add({
         {"<leader>c", group="Quickfix"},
         {"<leader>cn", "<Cmd>cnext<CR>"},
         {"<leader>cp", "<Cmd>cprev<CR>"},
+        {"<leader>cr", function() require("config.claude").run_command("/reviewers") end, desc="Claude: reviewer coverage"},
+        {"<leader>cc", function() require("config.claude").run_command("/completeness") end, desc="Claude: completeness"},
+    },
+
+    {
+        {"<leader>a", group="Claude"},
+        {"<leader>ac", "<Cmd> ClaudeCode<CR>", desc="Toggle"},
+        {"<leader>ar", "<Cmd> ClaudeCode --resume<CR>", desc="Resume session"},
+        {"<leader>aC", "<Cmd> ClaudeCode --continue<CR>", desc="Continue last session"},
+        {"<leader>as", "<Cmd> ClaudeCodeSend<CR>", desc="Send selection", mode="v"},
+        {"<leader>aa", "<Cmd> ClaudeCodeDiffAccept<CR>", desc="Accept diff"},
+        {"<leader>ad", "<Cmd> ClaudeCodeDiffDeny<CR>", desc="Reject diff"},
     },
 
     -- {"<leader>l", group="Location List"},
